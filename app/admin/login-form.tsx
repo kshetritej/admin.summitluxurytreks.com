@@ -33,13 +33,15 @@ export function LoginForm({
   async function onSubmit(data: FormValues) {
     try {
       setIsLoading(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/login`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        cache: "no-store",
-      },
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/login`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+          cache: "no-store",
+        },
       );
 
       const payload = await res.json().catch(() => ({}));
@@ -82,10 +84,10 @@ export function LoginForm({
               <div className="flex size-8 items-center justify-center rounded-md">
                 <UserCog className="size-6" />
               </div>
-              <span className="sr-only">{"Govinda Travels"}</span>
+              <span className="sr-only">{"Summit Luxury Treks"}</span>
             </Link>
             <h1 className="text-xl font-bold">
-              Welcome to {"Govinda Travels"}
+              Welcome to {"Summit Luxury Treks"}
             </h1>
             <FieldDescription>
               Enter your credentials to login to your admin panel.
