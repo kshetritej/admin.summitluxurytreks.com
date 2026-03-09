@@ -20,6 +20,7 @@ import {
   LucideCircle,
   LucideContact2,
   LucideCopyX,
+  LucideFileSignal,
   LucideForm,
   LucideGaugeCircle,
   LucideMapPinCheck,
@@ -113,11 +114,6 @@ const data: TNavData = {
   ],
   navSecondary: [
     {
-      title: "Settings",
-      url: "/settings",
-      icon: LucideSettings2,
-    },
-    {
       title: "Terms and Conditions",
       url: "/TERMS_AND_CONDITIONS",
       icon: LucideNewspaper,
@@ -130,26 +126,6 @@ const data: TNavData = {
     {
       title: "Cancellation Policy",
       url: "/CANCELLATION_POLICY",
-      icon: LucideNewspaper,
-    },
-    {
-      title: "Supplier Agreement",
-      url: "/SUPPLIER_AGREEMENT",
-      icon: LucideNewspaper,
-    },
-    {
-      title: "Community Guidelines",
-      url: "/COMMUNITY_GUIDELINES",
-      icon: LucideNewspaper,
-    },
-    {
-      title: "Platform Terms of Service",
-      url: "/PLATFORM_TERMS_OF_SERVICE",
-      icon: LucideNewspaper,
-    },
-    {
-      title: "Guest Terms and Conditions",
-      url: "/GUEST_TERMS_AND_CONDITIONS",
       icon: LucideNewspaper,
     },
   ],
