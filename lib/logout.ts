@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { toast } from "sonner";
 
 export const logout = async () => {
@@ -6,7 +7,7 @@ export const logout = async () => {
   const res = await fetch(`${baseUrl}/logout`, {
     method: "POST",
     credentials: "include",
-    cache: "no-store"
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -14,4 +15,5 @@ export const logout = async () => {
     throw new Error("Failed to logout");
   }
   toast.success("Successfully logged out.");
+  redirect("/admin");
 };
