@@ -148,7 +148,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <Link href="/">
                 <div className="bg-primary p-1 text-white rounded-sm">
-                  <Diamond fill="white" />
+                  <LucideMountainSnow fill="white" />
                 </div>
                 <span className="text-xl font-bold">{siteConfig.name}</span>
               </Link>
