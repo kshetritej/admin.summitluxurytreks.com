@@ -12,13 +12,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { ImageUp, LucideGitGraph } from "lucide-react";
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  Suspense,
-} from "react";
+import { useCallback, useEffect, useRef, useState, Suspense } from "react";
 import { Controller, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { toast } from "sonner";
@@ -100,7 +94,7 @@ const BlogFormInner = () => {
   const fetchCategories = useCallback(async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/blog-category?limit=99`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/blog-category?limit=99`,
       );
       const data = await res.json();
       setCategories(data.categories || []);
@@ -112,7 +106,9 @@ const BlogFormInner = () => {
   // Fetch authors
   const fetchAuthors = useCallback(async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/author?page=1&limit=999`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/author?page=1&limit=999`,
+      );
       const data = await res.json();
       setAuthors(data?.data || []);
     } catch (error) {
@@ -126,7 +122,7 @@ const BlogFormInner = () => {
       try {
         setIsLoading(true);
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/blogs/${slug}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/blogs/${slug}`,
         );
         if (!res.ok) throw new Error("Failed to fetch blog data");
 
@@ -162,7 +158,7 @@ const BlogFormInner = () => {
         setIsLoading(false);
       }
     },
-    [reset]
+    [reset],
   );
 
   useEffect(() => {
@@ -226,13 +222,13 @@ const BlogFormInner = () => {
       }
 
       toast.success(
-        slug ? "Post updated successfully!" : "Post created successfully!"
+        slug ? "Post updated successfully!" : "Post created successfully!",
       );
-      router.push("/admin/posts");
+      router.push("/posts");
     } catch (error: any) {
       console.error("Error saving blog:", error);
       toast.error(
-        error.message || "Something went wrong while saving the blog"
+        error.message || "Something went wrong while saving the blog",
       );
     } finally {
       setIsLoading(false);
@@ -255,7 +251,7 @@ const BlogFormInner = () => {
                   size="lg"
                   onClick={() => setShowSEOFields(!showSEOFields)}
                 >
-                  <LucideGitGraph/>
+                  <LucideGitGraph />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Toggle SEO Configuration</TooltipContent>
@@ -265,7 +261,7 @@ const BlogFormInner = () => {
                 size="lg"
                 variant="ghost"
                 type="button"
-                onClick={() => router.push("/admin/blogs")}
+                onClick={() => router.push("/posts")}
               >
                 Cancel
               </Button>
@@ -298,7 +294,7 @@ const BlogFormInner = () => {
           <fieldset
             className={cn(
               showSEOFields ? "flex flex-col gap-1" : "hidden",
-              "border p-4 rounded-md mb-4"
+              "border p-4 rounded-md mb-4",
             )}
           >
             <legend className="font-bold text-lg">SEO</legend>

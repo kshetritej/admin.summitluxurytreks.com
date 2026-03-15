@@ -60,14 +60,15 @@ const deleteBlog = async (id: string) => {
     {
       method: "DELETE",
       cache: "no-store",
-    }
+    },
   );
   const data = await response.json();
   if (response.ok) {
     toast.success(data?.message || "Item deleted successfully");
   } else {
     toast.error(
-      data?.message || "Something went wrong, please try again after some time!"
+      data?.message ||
+        "Something went wrong, please try again after some time!",
     );
   }
 };
@@ -79,7 +80,7 @@ const restoreBlog = async (id: string) => {
       method: "PATCH",
       cache: "no-store",
       credentials: "include",
-    }
+    },
   );
 
   const data = await response.json();
@@ -88,7 +89,8 @@ const restoreBlog = async (id: string) => {
     toast.success(data?.message || "Item Restored");
   } else {
     toast.error(
-      data?.message || "Something went wrong, please try again after some time!"
+      data?.message ||
+        "Something went wrong, please try again after some time!",
     );
   }
 };
@@ -177,14 +179,14 @@ export const blogsColumns: ColumnDef<Blog>[] = [
             <DropdownMenuItem
               onClick={() =>
                 navigator.clipboard.writeText(
-                  `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/${blog.slug}`
+                  `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/${blog.slug}`,
                 )
               }
             >
               <Copy /> Copy Blog URL
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <Link href={`/admin/blogs/edit?slug=${row.original.slug}`}>
+            <Link href={`/posts/edit?slug=${row.original.slug}`}>
               <DropdownMenuItem>
                 <Edit /> Edit
               </DropdownMenuItem>
