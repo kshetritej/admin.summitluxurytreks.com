@@ -17,10 +17,9 @@ import { NavUtils } from "./nav-utils";
 import { TNavData } from "@/app/(dash)/types/navItems";
 import Link from "next/link";
 import {
-  LucideCircle,
+  Diamond,
   LucideContact2,
   LucideCopyX,
-  LucideFileSignal,
   LucideForm,
   LucideGaugeCircle,
   LucideMapPinCheck,
@@ -31,15 +30,16 @@ import {
   LucideNotebookPen,
   LucidePyramid,
   LucideRoute,
-  LucideSettings2,
   LucideSquareActivity,
   LucideTag,
+  LucideUsers2,
 } from "lucide-react";
+import { siteConfig } from "@/lib/siteConfig";
 
 const data: TNavData = {
   user: {
     name: "Admin",
-    email: "admin@summitluxurytreks.com",
+    email: `admin@${siteConfig.domain}`,
     isVerified: true,
   },
   navMain: [
@@ -111,6 +111,11 @@ const data: TNavData = {
       url: "/manage-departments",
       icon: LucideContact2,
     },
+    {
+      name: "Manage Team Members",
+      url: "/manage-team",
+      icon: LucideUsers2,
+    },
   ],
   navSecondary: [
     {
@@ -142,10 +147,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <Link href="/">
-                <LucideCircle className="!size-5" />
-                <span className="text-base font-semibold">
-                  {"Summit Luxury Treks"}
-                </span>
+                <div className="bg-primary p-1 text-white rounded-sm">
+                  <Diamond fill="white" />
+                </div>
+                <span className="text-xl font-bold">{siteConfig.name}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

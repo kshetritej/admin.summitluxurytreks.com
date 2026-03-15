@@ -63,7 +63,7 @@ export default function Authors() {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-      }
+      },
     );
 
     if (!res.ok) {
@@ -78,7 +78,7 @@ export default function Authors() {
   useEffect(() => {
     async function fetchAuthors() {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/author?page=${page}&limit=${limit}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/author?page=${page}&limit=${limit}`,
       );
       const json = await res.json();
       setAuthors(json?.data ?? []);
@@ -163,9 +163,7 @@ export default function Authors() {
                   {/* Actions */}
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <Link
-                        href={`/authors/create?authorId=${author.id}`}
-                      >
+                      <Link href={`/authors/create?authorId=${author.id}`}>
                         <Button
                           size="icon"
                           variant="secondary"

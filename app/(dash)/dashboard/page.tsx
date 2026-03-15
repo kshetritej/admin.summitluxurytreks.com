@@ -1,11 +1,6 @@
 "use client";
 import { StatCard } from "@/components/cards/stat-card";
-import {
-  LucideClock,
-  LucideMegaphone,
-  LucideUsers,
-  TrendingUp,
-} from "lucide-react";
+import { LucideClock, LucideMegaphone, TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type StatsProps = {
@@ -25,7 +20,7 @@ export default function Dashboard() {
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/analytics`,
         {
           credentials: "include",
-        }
+        },
       );
       const data = await res.json();
       setStats(data?.data);
@@ -37,9 +32,7 @@ export default function Dashboard() {
     <div className="space-y-6">
       <div className="flex flex-col gap-3">
         <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Activity Status
-        </p>
+        <p className="text-muted-foreground">Activity Status</p>
       </div>
       <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard

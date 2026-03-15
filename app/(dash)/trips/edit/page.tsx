@@ -17,7 +17,7 @@ import {
   LucideEdit2,
   Plus,
   Trash2,
-  Upload,
+  UploadCloud,
   X,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -111,6 +111,7 @@ function TripForm() {
     trigger,
     reset,
     getValues,
+    watch,
     formState: { errors },
   } = useForm<TripFormData>({
     mode: "onChange",
@@ -181,6 +182,9 @@ function TripForm() {
     remove: removeFaq,
   } = useFieldArray({ control, name: "faqs" });
 
+  const metaTitleCharacterCount = watch("seo.metaTitle")?.length || 0;
+  const metaDescriptionCharacterCount =
+    watch("seo.metaDescription")?.length || 0;
   // Fetch options
   useEffect(() => {
     (async () => {
@@ -393,7 +397,6 @@ function TripForm() {
     if (currStep > 1) setStep(currStep - 1);
   };
 
-  console.log("Formstate Errors: ", errors);
   const onSubmit = async (data: TripFormData) => {
     console.log("Submitted: ", data);
     console.log("Itinerary Fields: ", itineraryFields);
@@ -458,7 +461,7 @@ function TripForm() {
 
   return (
     // @ts-expect-error Argument of type '(data: TripFormData) => Promise<void>' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'.
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form id="tripform" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       {/* STEP 1 */}
       <div className={cn(currStep === 1 ? "flex flex-col gap-3" : "hidden")}>
         <div className="flex flex-col gap-2">
@@ -942,15 +945,18 @@ function TripForm() {
         <Label htmlFor="upload_file">
           <div
             className={cn(
-              "w-full hover:bg-primary/10 rounded-sm border border-dashed p-8 flex flex-col items-center justify-center cursor-pointer",
+              "hover:bg-primary/10 rounded-sm border border-dashed p-8 flex flex-col items-center justify-center cursor-pointer transition-all delay-300",
               isUploading && "opacity-50 pointer-events-none",
             )}
           >
-            <Upload className="h-6 w-6 mb-2" />
+            <UploadCloud />
             <p className="font-medium">
               {isUploading ? "Uploading..." : "Browse"}
             </p>
-            <p className="text-sm text-foreground">Max file size up to 5MB</p>
+            <p className="text-xs  text-center text-muted-foreground">
+              Try to keep the image as low as possible. <br /> Optimal size is
+              betwen 100kb to 150kb. <br /> Max file size up to 1MB per image.
+            </p>
           </div>
         </Label>
         <input
@@ -961,6 +967,21 @@ function TripForm() {
           accept="image/png, image/jpeg, image/webp, image/avif"
           onChange={handleFileChange}
         />
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="keywords" className="flex gap-1 items-center">
+            Alt Texts for Images (comma separated)
+            <InstructionTooltip instruction="First line of text before comma will be the alt text for first image, second line for second and so on. For eg. If you write - beautiful scene of Machhapuchhere, Grand Mountain Ridges -- the beautiful one will be for first image then ridges one for second image. First upload images then write alts for them." />
+          </Label>
+          <LabelDescription text="Don't use comma (,) in the text, use --, or - or no comma at all to prevent issues." />
+          <Textarea
+            {...register("keywords", { required: "Keywords are required" })}
+            placeholder="Enter alt text for images, comma separated"
+            rows={3}
+          />
+          {errors.keywords && (
+            <p className="text-sm text-red-500">{errors.keywords.message}</p>
+          )}
+        </div>
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="highlights">Highlights (one per line)</Label>
@@ -972,19 +993,6 @@ function TripForm() {
           />
           {errors.highlights && (
             <p className="text-sm text-red-500">{errors.highlights.message}</p>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="keywords">Keywords (comma separated)</Label>
-          <LabelDescription text="Keep keywords relevant and specific to the trip. Eg: Pokhara, Sarangkot Sunrise, Phewa Lake" />
-          <Textarea
-            {...register("keywords", { required: "Keywords are required" })}
-            placeholder="Enter keywords, comma separated"
-            rows={3}
-          />
-          {errors.keywords && (
-            <p className="text-sm text-red-500">{errors.keywords.message}</p>
           )}
         </div>
       </div>
@@ -1142,7 +1150,7 @@ function TripForm() {
 
       {/* STEP 10: SEO */}
       <div
-        className={cn(currStep === 10 ? "flex flex-col gap-2 p-2" : "hidden")}
+        className={cn(currStep === 10 ? "flex flex-col gap-2 p-4" : "hidden")}
       >
         {/* Meta Title */}
         <div className="flex flex-col gap-2">
@@ -1152,9 +1160,18 @@ function TripForm() {
           </div>
           <LabelDescription text="Keep it 50–60 characters. Include your primary keyword and make it readable for humans." />
           <Input
+            autoComplete="on"
             {...register("seo.metaTitle")}
             placeholder="Annapurna Circuit Trek 16 Days | Cost & Itinerary"
           />
+          <span
+            className={cn(
+              "text-sm",
+              metaTitleCharacterCount > 60 && "text-red-500",
+            )}
+          >
+            {getValues("seo.metaTitle")?.length}/50
+          </span>
           {errors.seo?.metaTitle && (
             <p className="text-sm text-red-500">
               {errors?.seo?.metaTitle?.message}
@@ -1173,6 +1190,14 @@ function TripForm() {
             {...register("seo.metaDescription")}
             placeholder="Discover affordable Nepal tour packages with local experts. Custom itineraries, trusted guides, and 24/7 support."
           />
+          <span
+            className={cn(
+              "text-sm",
+              metaDescriptionCharacterCount > 160 && "text-red-500",
+            )}
+          >
+            {getValues("seo.metaDescription")?.length}/160
+          </span>
           {errors.seo?.metaDescription && (
             <p className="text-sm text-red-500">
               {errors?.seo?.metaDescription?.message}
@@ -1309,7 +1334,7 @@ function TripForm() {
               {selectedFeaturedTags.map((tagId) => {
                 const tag = featuredTags.find((t) => t.id === tagId);
                 return tag ? (
-                  <Badge key={tagId} variant="secondary" className="text-sm">
+                  <Badge key={tagId} variant={"default"} className="text-sm">
                     {tag.name}
                   </Badge>
                 ) : null;
@@ -1320,7 +1345,7 @@ function TripForm() {
       </div>
 
       {/* NAVIGATION */}
-      <div className="flex gap-2 w-full justify-end mt-12">
+      <div className="flex gap-2 w-full justify-end mt-12 p-4">
         <Button
           size="lg"
           type="button"

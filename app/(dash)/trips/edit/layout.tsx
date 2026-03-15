@@ -1,11 +1,15 @@
 "use client";
 
 import StepButton from "@/components/atoms/step-button";
+import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useTripStore } from "@/store/useTripStore";
+import { useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
 
 function LayoutContent({ children }: Readonly<{ children: React.ReactNode }>) {
+  const searchParams = useSearchParams();
+  const isEdit = searchParams?.get("id") || null;
   const currStep = useTripStore((step) => step.currentStep);
   const stepsTexts = [
     "Basic Information",
@@ -22,9 +26,9 @@ function LayoutContent({ children }: Readonly<{ children: React.ReactNode }>) {
 
   return (
     <div className="flex w-full max-w-screen mx-auto">
-      <nav className="bg-accent rounded-none p-2 mb-6 min-h-screen sticky top-0 w-[260px]">
+      <nav className="bg-accent  mb-6 min-h-screen sticky top-0 w-65 rounded-md pt-4">
         <ScrollArea className="">
-          <ul className="flex items-start justify-start gap-2 min-w-max flex-col">
+          <ul className="@container flex items-start justify-start gap-2 min-w-max flex-col">
             <li>
               <StepButton stepNumber={1} stepText="Basic Information" />
             </li>
@@ -63,7 +67,19 @@ function LayoutContent({ children }: Readonly<{ children: React.ReactNode }>) {
       </nav>
 
       <section className="flex-1 px-6">
-        <h2 className="font-bold text-xl mb-6">{stepsTexts[currStep - 1]}</h2>
+        <div className="flex justify-between pr-4">
+          <h2 className="font-bold text-xl mb-6">{stepsTexts[currStep - 1]}</h2>
+          {isEdit && (
+            <Button
+              type="submit"
+              form="tripform"
+              className="cursor-pointer"
+              size={"lg"}
+            >
+              Save
+            </Button>
+          )}
+        </div>
         <ScrollArea className="h-[calc(100vh-4rem)] w-full">
           {children}
         </ScrollArea>
